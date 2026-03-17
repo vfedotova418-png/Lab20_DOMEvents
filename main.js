@@ -44,7 +44,22 @@ const ageInput = document.getElementById("age");
 const result = document.getElementById("formResult");
 form.addEventListener("submit", (event) => {
     event.preventDefault();
-    const name = usernameInput.value;
-    const age = ageInput.value;
-    result.textContent = `Имя: ${name}, Возраст: ${age}`;
+    const name = usernameInput.value.trim();
+    if (name == "") {
+        result.textContent = "Ошибка: Имя не может быть пустым!";
+        result.style.color = "red";
+        usernameInput.focus();
+        return;
+    }
+    const age = Number(ageInput.value);
+    if (isNaN(age) || age <= 0 || age > 120) {
+        result.textContent = "Ошибка: Введите корректный возраст (от 1 до 120)!";
+        result.style.color = "red";
+        ageInput.focus();
+        ageInput.value = "";
+        return;
+    }
+    result.textContent = `Данные сохранены: ${name}, ${age} лет`;
+    result.style.color = "green";
+    form.reset();
 });
